@@ -1,0 +1,86 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@font-face {
+  font-family: "Inter";
+  src: url("./InterVariable.ttf") format("truetype");
+  font-weight: 50 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  letter-spacing: -0.018em;
+}
+
+@theme {
+  /* -------- Background Color -------- */
+  --background-color-body: #262626;
+  --background-color-navbar: #2a2a2a;
+  --background-color-subtle: oklch(from var(--color-white) l c h / 0.06);
+  --background-color-muted: oklch(from var(--color-white) l c h / 0.02);
+  --background-color-field: var(--color-neutral-700);
+
+  /* -------- Text Color -------- */
+  --text-color-base: var(--color-neutral-50);
+  --text-color-subtle: var(--color-neutral-400);
+  --text-color-light: #b3b3b3;
+  --text-color-muted: var(--color-neutral-500);
+  --text-color-disabled: var(--color-neutral-600);
+
+  /* -------- Border Color -------- */
+  --border-color-base: oklch(from var(--color-white) l c h / 0.04);
+
+  /* -------- Button Tokens -------- */
+
+  /* Button / Common */
+  --border-color-button: oklch(from var(--color-white) l c h / 0.04);
+
+  /* Button / Accent */
+  --background-color-button-accent: var(--color-sky-600);
+  --background-color-button-accent-hover: var(--color-sky-700);
+  --background-color-button-accent-active: var(--color-sky-800);
+  --text-color-button-accent: var(--color-white);
+  --shadow-button-accent:
+    0px 2px 4px rgba(0, 0, 0, 0.08), 0px 2px 2px -1px rgba(0, 0, 0, 0.16),
+    inset 0px 1px 0px rgba(255, 255, 255, 0.12);
+
+  /* Button / Subtle */
+  --background-color-button-subtle: var(--color-neutral-700);
+  --background-color-button-subtle-hover: var(--color-neutral-600);
+  --background-color-button-subtle-active: var(--color-neutral-500);
+  --text-color-button-subtle: var(--color-neutral-50);
+  --shadow-button-subtle:
+    0px 2px 4px rgba(0, 0, 0, 0.08), 0px 2px 2px -1px rgba(0, 0, 0, 0.16),
+    inset 0px 1px 0px rgba(255, 255, 255, 0.08);
+
+  /* Button / Ghost */
+  --background-color-button-ghost: transparent;
+  --background-color-button-ghost-hover: var(--color-neutral-700);
+  --background-color-button-ghost-active: var(--color-neutral-600);
+  --text-color-button-ghost: var(--color-neutral-400);
+
+  /* -------- Badge Tokens -------- */
+
+  /* Badge / Yellow */
+  --background-color-badge-yellow: oklch(
+    from var(--color-yellow-400) l c h / 0.1
+  );
+  --text-color-badge-yellow: var(--color-yellow-300);
+
+  /* -------- Font Family -------- */
+  --default-font-family: "Inter", sans-serif;
+
+  --font-weight-*: initial;
+  --font-weight-normal: 480;
+  --font-weight-medium: 580;
+
+  /* -------- Breakpoint -------- */
+  --container-app: 960px;
+}
