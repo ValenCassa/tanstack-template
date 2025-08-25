@@ -15,16 +15,19 @@ const buttonRootVariants = variants({
         "bg-button-subtle text-button-subtle hover:bg-button-subtle-hover active:bg-button-subtle-active shadow-button-subtle",
       ghost:
         "bg-button-ghost text-button-ghost hover:bg-button-ghost-hover active:bg-button-ghost-active",
+      inverted:
+        "bg-button-inverted text-button-inverted hover:bg-button-inverted-hover active:bg-button-inverted-active",
     },
     size: {
       md: "h-7 px-1.5",
+      sm: "h-6 px-1",
     },
   },
   defaultVariants: {
     variant: "accent",
     size: "md",
   },
-  base: "focus-visible:ring-4 ring-sky-300/10 transition-all rounded-md outline-none flex items-center font-medium",
+  base: "focus-visible:ring-4 ring-sky-300/10 transition-all rounded-md outline-none flex items-center font-medium disabled:opacity-50",
 });
 
 type ButtonRootProps = VariantProps<typeof buttonRootVariants> &

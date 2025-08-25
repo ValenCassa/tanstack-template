@@ -1,0 +1,89 @@
+{
+  "../../../../../~start/default-client-entry.tsx": {
+    "file": "assets/main-D2HjN8A8.js",
+    "name": "main",
+    "src": "../../../../../~start/default-client-entry.tsx",
+    "isEntry": true,
+    "dynamicImports": [
+      "src/app/roadmap/roadmap.page.tsx?tsr-split=component",
+      "src/app/index/index.page.tsx?tsr-split=component",
+      "src/app/post/$postId/$postId.page.tsx?tsr-split=component",
+      "src/app/post/post.page.tsx?tsr-split=component"
+    ],
+    "assets": [
+      "assets/InterVariable-DEKF4JyX.ttf",
+      "assets/globals-C3vHBZXK.css"
+    ]
+  },
+  "/Users/valencassa/Documents/personal/tanstack-demo/src/globals.css": {
+    "file": "assets/globals-C3vHBZXK.css",
+    "src": "/Users/valencassa/Documents/personal/tanstack-demo/src/globals.css"
+  },
+  "_index-Cd1oIe-f.js": {
+    "file": "assets/index-Cd1oIe-f.js",
+    "name": "index",
+    "imports": [
+      "../../../../../~start/default-client-entry.tsx",
+      "_useOnMount-DjW1y5AZ.js"
+    ]
+  },
+  "_index-m4re2QRd.js": {
+    "file": "assets/index-m4re2QRd.js",
+    "name": "index",
+    "imports": [
+      "../../../../../~start/default-client-entry.tsx",
+      "_useOnMount-DjW1y5AZ.js"
+    ]
+  },
+  "_useOnMount-DjW1y5AZ.js": {
+    "file": "assets/useOnMount-DjW1y5AZ.js",
+    "name": "useOnMount",
+    "imports": [
+      "../../../../../~start/default-client-entry.tsx"
+    ]
+  },
+  "src/InterVariable.ttf": {
+    "file": "assets/InterVariable-DEKF4JyX.ttf",
+    "src": "src/InterVariable.ttf"
+  },
+  "src/app/index/index.page.tsx?tsr-split=component": {
+    "file": "assets/index.page-DfMUxr7R.js",
+    "name": "index.page",
+    "src": "src/app/index/index.page.tsx?tsr-split=component",
+    "isDynamicEntry": true,
+    "imports": [
+      "../../../../../~start/default-client-entry.tsx",
+      "_index-Cd1oIe-f.js",
+      "_index-m4re2QRd.js",
+      "_useOnMount-DjW1y5AZ.js"
+    ]
+  },
+  "src/app/post/$postId/$postId.page.tsx?tsr-split=component": {
+    "file": "assets/_postId.page-Cnhm1bBk.js",
+    "name": "_postId.page",
+    "src": "src/app/post/$postId/$postId.page.tsx?tsr-split=component",
+    "isDynamicEntry": true,
+    "imports": [
+      "../../../../../~start/default-client-entry.tsx",
+      "_index-Cd1oIe-f.js",
+      "_useOnMount-DjW1y5AZ.js"
+    ]
+  },
+  "src/app/post/post.page.tsx?tsr-split=component": {
+    "file": "assets/post.page-zRh33zZ_.js",
+    "name": "post.page",
+    "src": "src/app/post/post.page.tsx?tsr-split=component",
+    "isDynamicEntry": true
+  },
+  "src/app/roadmap/roadmap.page.tsx?tsr-split=component": {
+    "file": "assets/roadmap.page-CQRmGKlJ.js",
+    "name": "roadmap.page",
+    "src": "src/app/roadmap/roadmap.page.tsx?tsr-split=component",
+    "isDynamicEntry": true,
+    "imports": [
+      "../../../../../~start/default-client-entry.tsx",
+      "_index-m4re2QRd.js",
+      "_useOnMount-DjW1y5AZ.js"
+    ]
+  }
+}

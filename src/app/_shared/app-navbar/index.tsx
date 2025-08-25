@@ -1,15 +1,10 @@
-import {
-  Link,
-  useLocation,
-  useRouter,
-  useRouterState,
-} from "@tanstack/react-router";
+import { Link, useLocation } from "@tanstack/react-router";
 import { AnimatePresence, motion } from "framer-motion";
 
 import { ProgressCircle0Of4 } from "~/components/icons";
 import { ChevronRightIcon } from "~/components/icons/chevron-right-icon";
 import { ReactIcon } from "~/components/icons/react-icon";
-import { Button, Tabs } from "~/components/ui";
+import { Avatar, Button, Tabs } from "~/components/ui";
 import { clientAuth } from "~/utils/auth/client-auth";
 
 function NavbarOrganization() {
@@ -37,7 +32,7 @@ function NavbarUser() {
     <AnimatePresence>
       {!isPending ? (
         <motion.div
-          key={data?.user.id}
+          key={data?.user?.id}
           initial={{
             opacity: 0,
           }}
@@ -64,10 +59,22 @@ function NavbarUser() {
               </a>
             }
           />
-
-          <Button.Root variant="subtle">
-            <Button.Text>Log in</Button.Text>
-          </Button.Root>
+          {data?.user ? (
+            <Button.Root variant="subtle" onClick={() => clientAuth.signOut()}>
+              <Avatar.Root className="grid w-fit place-content-center pr-1 pl-0.5">
+                <Avatar.Image
+                  src={data?.user.image ?? ""}
+                  className="!size-3.5"
+                />
+                <Avatar.Fallback />
+              </Avatar.Root>
+              <Button.Text>Log out</Button.Text>
+            </Button.Root>
+          ) : (
+            <Button.Root data-requires-auth variant="subtle">
+              <Button.Text>Log in</Button.Text>
+            </Button.Root>
+          )}
         </motion.div>
       ) : null}
     </AnimatePresence>
@@ -99,11 +106,14 @@ function NavbarTabs() {
           }
         />
 
-        <Tabs.Item value="/roadmap" disabled>
-          <Tabs.ItemContent>
-            Roadmap <SoonBadge />
-          </Tabs.ItemContent>
-        </Tabs.Item>
+        <Tabs.Item
+          value="/roadmap"
+          render={
+            <Link to="/roadmap">
+              <Tabs.ItemContent>Roadmap</Tabs.ItemContent>
+            </Link>
+          }
+        />
 
         <Tabs.Item value="/changelog" disabled>
           <Tabs.ItemContent>
@@ -123,7 +133,7 @@ function NavbarTabs() {
 
 export function AppNavbar() {
   return (
-    <div className="bg-navbar border-base sticky top-0 w-full border-b px-4">
+    <div className="bg-navbar border-base z-10 w-full border-b px-4">
       <div className="max-w-app mx-auto w-full">
         <div className="flex h-[70px] items-center justify-between pt-0.5">
           <NavbarOrganization />

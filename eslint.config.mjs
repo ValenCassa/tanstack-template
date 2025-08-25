@@ -1,4 +1,5 @@
 import antfu from "@antfu/eslint-config";
+import prettierConfig from "eslint-config-prettier";
 
 // Custom rule to enforce .layout. or .page. in src/app filenames (excluding _shared folders)
 const enforceAppFileNaming = {
@@ -62,6 +63,7 @@ export default antfu({
     },
   },
   rules: {
+    ...prettierConfig.rules,
     "style/quotes": ["error", "double"],
     "style/semi": ["error", "always"],
     "style/multiline-ternary": "off",

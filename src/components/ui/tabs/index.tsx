@@ -13,7 +13,10 @@ type TabsListProps = Tabs.List.Props;
 function TabsList({ className, ...props }: TabsListProps) {
   return (
     <Tabs.List
-      className={cn("flex items-center gap-5 px-0.5", className)}
+      className={cn(
+        "group/list isolate flex items-center gap-5 px-0.5",
+        className,
+      )}
       {...props}
     />
   );
@@ -25,8 +28,9 @@ type TabsItemProps = Tabs.Tab.Props;
 function TabsItem({ className, ...props }: TabsItemProps) {
   return (
     <Tabs.Tab
+      data-slot="tab-item"
       className={cn(
-        "text-muted flex h-8 items-start text-sm font-medium ring-sky-300/10 transition-all outline-none focus-visible:ring-4",
+        "text-muted relative flex h-8 items-start text-sm font-medium ring-sky-300/10 transition-all outline-none focus-visible:ring-4",
         "hover:text-subtle",
         "data-[selected]:text-base data-[selected]:shadow-[inset_0px_-1.5px_0px_var(--color-neutral-50)]",
         "data-[disabled]:!text-disabled",

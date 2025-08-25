@@ -5,5 +5,10 @@ export const routes = rootRoute("__root.tsx", [
   route("/api/auth/$", "api/auth/$.tsx"),
 
   /* ----------- Page Routes ----------- */
-  index("index.page.tsx"),
+  index("index/index.page.tsx"),
+  route("/roadmap", "roadmap/roadmap.page.tsx"),
+  route("/post", [
+    index("post/post.page.tsx"),
+    route("/$postId", "post/$postId/$postId.page.tsx"),
+  ]),
 ]);

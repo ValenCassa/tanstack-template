@@ -16,6 +16,7 @@ import appCss from "~/globals.css?url";
 import { seo } from "~/utils/seo";
 
 import { AppNavbar } from "./_shared/app-navbar";
+import { LogInModal } from "./_shared/log-in-modal";
 
 export const Route = createRootRouteWithContext<{
   queryClient: QueryClient;
@@ -84,9 +85,11 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       <head>
         <HeadContent />
       </head>
-      <body className="bg-body text-base text-sm antialiased">
+      <body className="bg-body flex h-dvh flex-col overflow-hidden text-base text-sm antialiased">
+        <LogInModal />
         <AppNavbar />
         {children}
+
         <TanStackRouterDevtools position="bottom-right" />
         <ReactQueryDevtools buttonPosition="bottom-left" />
         <Scripts />
