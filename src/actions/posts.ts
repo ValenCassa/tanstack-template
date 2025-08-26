@@ -367,3 +367,33 @@ export const commentPost = createServerFn({ method: "POST" })
       },
     };
   });
+
+/* --------- Get Post Meta --------- */
+
+const getPostMetaValidator = z.object({
+  postId: z.string(),
+});
+
+export const getPostMeta = createServerFn()
+  .validator(getPostMetaValidator)
+  .handler(async ({ data: { postId } }) => {
+    const data = await db
+      .select({
+        id: posts.id,
+        title: posts.title,
+        description: posts.description,
+      })
+      .from(posts)
+      .where(eq(posts.id, postId));
+
+    return data[0];
+  });
+
+export function getPostMetaQueryOptions(postId: string) {
+  return {
+    queryKey: ["post-meta", postId],
+    queryFn: () => getPostMeta({ data: { postId } }),
+  };
+}
+
+export type GetPostMetaResponse = Awaited<ReturnType<typeof getPostMeta>>;

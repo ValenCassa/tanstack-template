@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 
-import { getPostQueryOptions } from "~/actions/posts";
+import { getPostMetaQueryOptions, getPostQueryOptions } from "~/actions/posts";
 import { ScrollArea, Spinner } from "~/components/ui";
 import { seo } from "~/utils/seo";
 
@@ -18,10 +18,13 @@ export const Route = createFileRoute("/post/$postId")({
     );
   },
   loader: async ({ context, params }) => {
-    // Fetch the data directly in the loader
-    return context.queryClient.ensureQueryData(
-      getPostQueryOptions(params.postId),
+    context.queryClient.prefetchQuery(getPostQueryOptions(params.postId));
+
+    const postMeta = await context.queryClient.ensureQueryData(
+      getPostMetaQueryOptions(params.postId),
     );
+
+    return postMeta;
   },
   head: async ({ loaderData }) => {
     if (!loaderData) {
