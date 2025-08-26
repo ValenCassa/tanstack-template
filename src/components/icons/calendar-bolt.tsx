@@ -15,7 +15,7 @@ export function CalendarBolt({ className, ...props }: IconProps) {
       <g fill="currentColor">
         <path
           d="m17,8v-1c0-1.6569-1.3431-3-3-3H6c-1.6569,0-3,1.3431-3,3v1h14Z"
-          stroke-width="0"
+          strokeWidth="0"
           fill="currentColor"
         ></path>
         <line
@@ -25,9 +25,9 @@ export function CalendarBolt({ className, ...props }: IconProps) {
           y2="2"
           fill="none"
           stroke="currentColor"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="2"
         ></line>
         <line
           x1="14"

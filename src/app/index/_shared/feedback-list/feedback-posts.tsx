@@ -1,10 +1,15 @@
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
 import { Link } from "@tanstack/react-router";
 import { DateTime } from "luxon";
 import { motion } from "motion/react";
 
-import { getPostsQueryOptions } from "~/actions/posts";
-import { MsgFilled } from "~/components/icons";
+import type { GetPostResponse, GetPostsResponse } from "~/actions/posts";
+import {
+  getPostQueryOptions,
+  getPostsQueryOptions,
+  upvotePost as upvotePostAction,
+} from "~/actions/posts";
+import { EmptyIcon, MsgFilled } from "~/components/icons";
 import { ChevronRightIcon } from "~/components/icons/chevron-right-icon";
 import { Avatar, Separator } from "~/components/ui";
 import { cn } from "~/utils/cn";
@@ -15,9 +20,88 @@ import { Route } from "../../index.page";
 export function FeedbackPosts() {
   const search = Route.useSearch();
   const { data } = useSuspenseQuery(getPostsQueryOptions(search));
+  const { queryClient } = Route.useRouteContext();
+  const upvotePost = useMutation({
+    mutationFn: (postId: string) => {
+      return upvotePostAction({ data: { postId } });
+    },
+    onMutate: async (postId) => {
+      // Cancel any outgoing refetches
+      await queryClient.cancelQueries({ queryKey: ["posts"] });
+      await queryClient.cancelQueries(getPostQueryOptions(postId));
+
+      // Snapshot the previous value with the current search params
+      const previousPosts: GetPostsResponse =
+        queryClient.getQueryData(getPostsQueryOptions(search).queryKey) || [];
+
+      // Optimistically update to the new value
+      queryClient.setQueryData(
+        getPostsQueryOptions(search).queryKey,
+        (old: GetPostsResponse) => {
+          return old.map((post) => {
+            if (post.id !== postId) {
+              return post;
+            }
+
+            const upvotesAll = post.upvotesAll + (post.upvoted ? -1 : 1);
+
+            return {
+              ...post,
+              upvoted: !post.upvoted,
+              upvotesAll,
+            };
+          });
+        },
+      );
+
+      const previousPost: GetPostResponse | undefined =
+        queryClient.getQueryData(getPostQueryOptions(postId).queryKey);
+
+      queryClient.setQueryData(
+        getPostQueryOptions(postId).queryKey,
+        (old: GetPostResponse | undefined) => {
+          if (!old) {
+            return old;
+          }
+
+          const upvotesCount = old.upvotesCount + (old.upvoted ? -1 : 1);
+
+          return { ...old, upvoted: !old.upvoted, upvotesCount };
+        },
+      );
+
+      return { previousPosts, previousPost };
+    },
+    onError: (_, postId, context) => {
+      queryClient.setQueryData(
+        getPostsQueryOptions(search).queryKey,
+        context?.previousPosts,
+      );
+      queryClient.setQueryData(
+        getPostQueryOptions(postId).queryKey,
+        context?.previousPost,
+      );
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["posts"] });
+    },
+  });
 
   if (!data.length) {
-    return "empty";
+    return (
+      <motion.div
+        initial={{
+          opacity: 0,
+        }}
+        animate={{
+          opacity: 1,
+        }}
+        className="border-strong grid w-full place-content-center space-y-4 rounded-md border border-dashed py-[140px]"
+      >
+        <EmptyIcon className="text-muted mx-auto size-6" />
+        <p className="text-subtle text-sm font-medium">No posts found</p>
+      </motion.div>
+    );
   }
 
   return (
@@ -39,7 +123,7 @@ export function FeedbackPosts() {
                 to="/post/$postId"
                 params={{ postId: post.id }}
                 className={cn(
-                  "space-y-3 px-4 py-3.5 outline-hidden transition-colors",
+                  "flex-1 space-y-3 px-4 py-3.5 outline-hidden transition-colors",
                   "hover:bg-muted",
                   "focus-visible:bg-muted",
                 )}
@@ -95,6 +179,7 @@ export function FeedbackPosts() {
               <button
                 data-requires-auth
                 data-upvoted={post.upvoted || undefined}
+                onClick={() => upvotePost.mutate(post.id)}
                 className={cn(
                   "group/upvote grid w-12 shrink-0 place-content-center gap-2 text-xs font-medium outline-hidden transition-colors",
                   "hover:bg-muted",

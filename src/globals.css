@@ -46,6 +46,7 @@ html {
 
   /* -------- Border Color -------- */
   --border-color-base: oklch(from var(--color-white) l c h / 0.04);
+  --border-color-strong: oklch(from var(--color-white) l c h / 0.08);
 
   /* -------- Button Tokens -------- */
 

@@ -1,5 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
-import { eq, sql } from "drizzle-orm";
+import { desc, eq, sql } from "drizzle-orm";
 
 import { db } from "~/utils/db/db";
 import { users } from "~/utils/db/schema/auth/schema";
@@ -64,7 +64,13 @@ export const getLeaderboard = createServerFn().handler(async () => {
     .from(users)
     .leftJoin(userUpvoteCounts, eq(userUpvoteCounts.userId, users.id))
     .leftJoin(userCommentCounts, eq(userCommentCounts.userId, users.id))
-    .leftJoin(userPostCounts, eq(userPostCounts.userId, users.id));
+    .leftJoin(userPostCounts, eq(userPostCounts.userId, users.id))
+    .orderBy(
+      desc(
+        sql`COALESCE(${userUpvoteCounts.upvoteCount}, 0) + COALESCE(${userCommentCounts.commentCount}, 0) + COALESCE(${userPostCounts.postCount}, 0)`,
+      ),
+    )
+    .limit(5);
 
   return data;
 });

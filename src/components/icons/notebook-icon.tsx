@@ -31,8 +31,8 @@ export function NotebookIcon({ className, ...props }: IconProps) {
           fill="none"
           stroke="currentColor"
           strokeLinecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
+          strokeLinejoin="round"
+          strokeWidth="2"
         ></rect>
         <line
           x1="8"
@@ -41,7 +41,7 @@ export function NotebookIcon({ className, ...props }: IconProps) {
           y2="17"
           fill="none"
           stroke="currentColor"
-          stroke-linecap="round"
+          strokeLinecap="round"
           strokeLinejoin="round"
           strokeWidth="2"
         ></line>
@@ -55,9 +55,9 @@ export function NotebookIcon({ className, ...props }: IconProps) {
           transform="translate(20) rotate(90)"
           fill="none"
           stroke="currentColor"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="2"
         ></rect>
         <line
           x1="4"

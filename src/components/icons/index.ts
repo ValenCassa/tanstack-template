@@ -4,6 +4,7 @@ export * from "./calendar-bolt";
 export * from "./circle-question-icon";
 export * from "./circle-user-filled-icon";
 export * from "./double-check-icon";
+export * from "./empty-icon";
 export * from "./feather-filled-icon";
 export * from "./fire-icon";
 export * from "./gauge-icon";

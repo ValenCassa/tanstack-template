@@ -1,9 +1,9 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
+import { AnimatePresence, motion } from "framer-motion";
 import { DateTime } from "luxon";
 
 import { getPostQueryOptions } from "~/actions/posts";
-import { Avatar, Button } from "~/components/ui";
-import { cn } from "~/utils/cn";
+import { Avatar } from "~/components/ui";
 
 import { Route } from "../../$postId.page";
 import { CommentForm } from "./comment-form";
@@ -21,35 +21,49 @@ export function PostComments() {
         </span>
       </div>
       <CommentForm />
-      {data.comments.map((comment) => {
-        return (
-          <div className="flex gap-3">
-            <Avatar.Root size="lg" className="shrink-0">
-              <Avatar.Image
-                src={comment.author.image || undefined}
-                alt={comment.author.name}
-              />
-              <Avatar.Fallback className="[&_svg]:size-5" />
-            </Avatar.Root>
-            <div className="space-y-1">
-              <div className="flex items-center gap-2">
-                <p className="text-xs font-medium">{comment.author.name}</p>
+      <AnimatePresence initial={false} mode="popLayout">
+        {data.comments.map((comment) => {
+          return (
+            <motion.div
+              initial={{
+                y: -10,
+                opacity: 0,
+              }}
+              animate={{
+                y: 0,
+                opacity: 1,
+              }}
+              layout="position"
+              className="flex gap-3"
+              key={comment.id}
+            >
+              <Avatar.Root size="lg" className="shrink-0">
+                <Avatar.Image
+                  src={comment.author.image || undefined}
+                  alt={comment.author.name}
+                />
+                <Avatar.Fallback className="[&_svg]:size-5" />
+              </Avatar.Root>
+              <div className="space-y-1">
+                <div className="flex items-center gap-2">
+                  <p className="text-xs font-medium">{comment.author.name}</p>
 
-                <span className="size-1 bg-[var(--text-color-muted)]" />
+                  <span className="size-1 bg-[var(--text-color-muted)]" />
 
-                <p className="text-subtle text-xs font-medium">
-                  {DateTime.fromJSDate(
-                    new Date(comment.createdAt),
-                  ).toRelativeCalendar()}
+                  <p className="text-subtle text-xs font-medium">
+                    {DateTime.fromJSDate(
+                      new Date(comment.createdAt),
+                    ).toRelativeCalendar()}
+                  </p>
+                </div>
+                <p className="text-light text-sm leading-[22px]">
+                  {comment.content}
                 </p>
               </div>
-              <p className="text-light text-sm leading-[22px]">
-                {comment.content}
-              </p>
-            </div>
-          </div>
-        );
-      })}
+            </motion.div>
+          );
+        })}
+      </AnimatePresence>
     </div>
   );
 }

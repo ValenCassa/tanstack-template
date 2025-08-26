@@ -1,29 +1,66 @@
 import { Dialog } from "@base-ui-components/react/dialog";
-import { useState } from "react";
+import { useMutation } from "@tanstack/react-query";
+import { useCallback, useState } from "react";
 import type { PropsWithChildren } from "react";
+import type z from "zod";
 
+import type { createPostValidator } from "~/actions/posts";
+import { createPost as createPostAction } from "~/actions/posts";
 import { Button, SegmentedTabs } from "~/components/ui";
-import type { BoardType } from "~/utils/db/schema/posts/schema";
+import { cn } from "~/utils/cn";
 import { BOARD_META } from "~/utils/mappings";
 
+import { Route } from "../../index.page";
+
 function CreatePostModalContent() {
-  const [values, setValues] = useState({
+  const navigate = Route.useNavigate();
+
+  const [values, setValues] = useState<z.infer<typeof createPostValidator>>({
     title: "",
     description: "",
-    boardType: "feature_request",
+    board: "feature_request",
   });
+
+  const { queryClient } = Route.useRouteContext();
+
+  const createPost = useMutation({
+    mutationFn: (values: z.infer<typeof createPostValidator>) => {
+      return createPostAction({
+        data: {
+          title: values.title,
+          description: values.description,
+          board: values.board,
+        },
+      });
+    },
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ["posts"] });
+      navigate({
+        to: "/post/$postId",
+        params: {
+          postId: data.id,
+        },
+      });
+    },
+  });
+
+  const handleSubmit = useCallback(
+    (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      createPost.mutate(values);
+    },
+    [createPost, values],
+  );
 
   return (
     <form
-      onSubmit={(e) => {
-        e.preventDefault();
-        console.log(values);
-      }}
+      onSubmit={handleSubmit}
+      className={cn({ "animate-pulse": createPost.isPending })}
     >
       <div className="bg-field shadow-button-subtle rounded-md">
         <input
           placeholder="Title"
-          className="placeholder:text-subtle block px-3.5 pt-3 pb-2.5 text-[16px] font-medium outline-hidden transition-colors"
+          className="placeholder:text-subtle block w-full px-3.5 pt-3 pb-2.5 text-[16px] font-medium outline-hidden transition-colors"
           value={values.title}
           onChange={(e) => {
             setValues({ ...values, title: e.target.value });
@@ -32,7 +69,7 @@ function CreatePostModalContent() {
         <textarea
           rows={4}
           placeholder="Describe your feedback"
-          className="placeholder:text-subtle text-light block resize-none px-3.5 pb-3 text-sm font-medium outline-hidden transition-colors [&::-webkit-scrollbar]:hidden"
+          className="placeholder:text-subtle text-light block w-full resize-none px-3.5 pb-3 text-sm font-medium outline-hidden transition-colors [&::-webkit-scrollbar]:hidden"
           value={values.description}
           onChange={(e) => {
             setValues({ ...values, description: e.target.value });
@@ -41,9 +78,9 @@ function CreatePostModalContent() {
       </div>
       <div className="flex items-center justify-between p-2">
         <SegmentedTabs.Root
-          value={values.boardType}
+          value={values.board}
           onValueChange={(value) => {
-            setValues({ ...values, boardType: value as BoardType });
+            setValues({ ...values, board: value });
           }}
         >
           <SegmentedTabs.List className="bg-muted">
@@ -65,7 +102,9 @@ function CreatePostModalContent() {
         <Button.Root
           type="submit"
           variant="inverted"
-          disabled={!values.title || !values.description}
+          disabled={
+            !values.title || !values.description || createPost.isPending
+          }
         >
           <Button.Text>Create</Button.Text>
         </Button.Root>

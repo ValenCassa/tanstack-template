@@ -27,7 +27,7 @@ const buttonRootVariants = variants({
     variant: "accent",
     size: "md",
   },
-  base: "focus-visible:ring-4 ring-sky-300/10 transition-all rounded-md outline-none flex items-center font-medium disabled:opacity-50",
+  base: "focus-visible:ring-4 ring-sky-300/10 transition-all rounded-md outline-none flex items-center font-medium disabled:opacity-50 disabled:pointer-events-none",
 });
 
 type ButtonRootProps = VariantProps<typeof buttonRootVariants> &

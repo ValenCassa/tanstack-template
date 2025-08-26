@@ -60,7 +60,13 @@ function NavbarUser() {
             }
           />
           {data?.user ? (
-            <Button.Root variant="subtle" onClick={() => clientAuth.signOut()}>
+            <Button.Root
+              variant="subtle"
+              onClick={async () => {
+                await clientAuth.signOut();
+                window.location.reload();
+              }}
+            >
               <Avatar.Root className="grid w-fit place-content-center pr-1 pl-0.5">
                 <Avatar.Image
                   src={data?.user.image ?? ""}
@@ -99,6 +105,7 @@ function NavbarTabs() {
       <Tabs.List>
         <Tabs.Item
           value="/"
+          nativeButton={false}
           render={
             <Link to="/">
               <Tabs.ItemContent>Feedback</Tabs.ItemContent>
@@ -106,14 +113,11 @@ function NavbarTabs() {
           }
         />
 
-        <Tabs.Item
-          value="/roadmap"
-          render={
-            <Link to="/roadmap">
-              <Tabs.ItemContent>Roadmap</Tabs.ItemContent>
-            </Link>
-          }
-        />
+        <Tabs.Item value="/roadmap" disabled>
+          <Tabs.ItemContent>
+            Roadmap <SoonBadge />
+          </Tabs.ItemContent>
+        </Tabs.Item>
 
         <Tabs.Item value="/changelog" disabled>
           <Tabs.ItemContent>

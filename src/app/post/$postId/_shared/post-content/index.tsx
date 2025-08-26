@@ -11,7 +11,7 @@ export function PostContent() {
   const { postId } = Route.useParams();
   const { data } = useSuspenseQuery(getPostQueryOptions(postId));
   return (
-    <div className="space-y-3 py-6">
+    <div className="flex-1 space-y-3 py-6">
       <Link
         to="/"
         from="/post/$postId"

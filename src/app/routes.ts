@@ -6,7 +6,6 @@ export const routes = rootRoute("__root.tsx", [
 
   /* ----------- Page Routes ----------- */
   index("index/index.page.tsx"),
-  route("/roadmap", "roadmap/roadmap.page.tsx"),
   route("/post", [
     index("post/post.page.tsx"),
     route("/$postId", "post/$postId/$postId.page.tsx"),

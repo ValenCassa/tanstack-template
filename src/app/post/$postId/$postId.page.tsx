@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 
 import { getPostQueryOptions } from "~/actions/posts";
 import { ScrollArea, Spinner } from "~/components/ui";
+import { seo } from "~/utils/seo";
 
 import { PostContent } from "./_shared/post-content";
 import { PostMeta } from "./_shared/post-meta";
@@ -17,7 +18,28 @@ export const Route = createFileRoute("/post/$postId")({
     );
   },
   loader: ({ context, params }) => {
-    context.queryClient.ensureQueryData(getPostQueryOptions(params.postId));
+    return context.queryClient.ensureQueryData(
+      getPostQueryOptions(params.postId),
+    );
+  },
+  head: ({ loaderData }) => {
+    if (!loaderData) {
+      return {
+        meta: [
+          {
+            title: "Feedhub | Tanstack Demo",
+          },
+        ],
+      };
+    }
+    return {
+      meta: [
+        ...seo({
+          title: `${loaderData.title} | Feedhub`,
+          description: loaderData.description,
+        }),
+      ],
+    };
   },
 });
 

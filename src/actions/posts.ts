@@ -24,10 +24,10 @@ const commentCounts = db.$with("comment_counts").as(
     .select({
       postId: postComments.postId,
       comments7d:
-        sql<number>`COUNT(*) FILTER (WHERE ${postComments.createdAt} >= NOW() - INTERVAL '7 days')`.as(
+        sql<number>`COUNT(*) FILTER (WHERE ${postComments.createdAt} >= NOW() - INTERVAL '7 days')::INTEGER`.as(
           "comments7d",
         ),
-      commentsAll: sql<number>`COUNT(*)`.as("commentsAll"),
+      commentsAll: sql<number>`COUNT(*)::INTEGER`.as("commentsAll"),
     })
     .from(postComments)
     .groupBy(postComments.postId),
@@ -38,10 +38,10 @@ const upvoteCounts = db.$with("upvote_counts").as(
     .select({
       postId: postUpvotes.postId,
       upvotes7d:
-        sql<number>`COUNT(*) FILTER (WHERE ${postUpvotes.createdAt} >= NOW() - INTERVAL '7 days')`.as(
+        sql<number>`COUNT(*) FILTER (WHERE ${postUpvotes.createdAt} >= NOW() - INTERVAL '7 days')::INTEGER`.as(
           "upvotes7d",
         ),
-      upvotesAll: sql<number>`COUNT(*)`.as("upvotesAll"),
+      upvotesAll: sql<number>`COUNT(*)::INTEGER`.as("upvotesAll"),
     })
     .from(postUpvotes)
     .groupBy(postUpvotes.postId),
@@ -84,18 +84,22 @@ export const getPosts = createServerFn()
           name: users.name,
           image: users.image,
         }),
-        comments7d: sql<number>`COALESCE(${commentCounts.comments7d}, 0)`.as(
-          "comments7d",
-        ),
-        upvotes7d: sql<number>`COALESCE(${upvoteCounts.upvotes7d}, 0)`.as(
-          "upvotes7d",
-        ),
-        commentsAll: sql<number>`COALESCE(${commentCounts.commentsAll}, 0)`.as(
-          "commentsAll",
-        ),
-        upvotesAll: sql<number>`COALESCE(${upvoteCounts.upvotesAll}, 0)`.as(
-          "upvotesAll",
-        ),
+        comments7d:
+          sql<number>`COALESCE(${commentCounts.comments7d}, 0)::INTEGER`.as(
+            "comments7d",
+          ),
+        upvotes7d:
+          sql<number>`COALESCE(${upvoteCounts.upvotes7d}, 0)::INTEGER`.as(
+            "upvotes7d",
+          ),
+        commentsAll:
+          sql<number>`COALESCE(${commentCounts.commentsAll}, 0)::INTEGER`.as(
+            "commentsAll",
+          ),
+        upvotesAll:
+          sql<number>`COALESCE(${upvoteCounts.upvotesAll}, 0)::INTEGER`.as(
+            "upvotesAll",
+          ),
         upvoted:
           sql<boolean>`COALESCE(${postUpvotes.id} IS NOT NULL, false)`.as(
             "upvoted",
@@ -152,6 +156,8 @@ export function getPostsQueryOptions(
   };
 }
 
+export type GetPostsResponse = Awaited<ReturnType<typeof getPosts>>;
+
 /* --------- Get Post --------- */
 
 const getPostValidator = z.object({
@@ -202,9 +208,10 @@ export const getPost = createServerFn()
           name: users.name,
           image: users.image,
         }),
-        upvotesCount: sql<number>`COALESCE(${upvoteCounts.upvotesAll}, 0)`.as(
-          "upvotesCount",
-        ),
+        upvotesCount:
+          sql<number>`COALESCE(${upvoteCounts.upvotesAll}, 0)::INTEGER`.as(
+            "upvotesCount",
+          ),
         upvoted:
           sql<boolean>`COALESCE(${postUpvotes.id} IS NOT NULL, false)`.as(
             "upvoted",
@@ -264,9 +271,11 @@ export function getPostQueryOptions(postId: string) {
   };
 }
 
+export type GetPostResponse = Awaited<ReturnType<typeof getPost>>;
+
 /* --------- Create Post --------- */
 
-const createPostValidator = z.object({
+export const createPostValidator = z.object({
   title: z.string().min(1),
   description: z.string().min(1),
   board: z.enum(boardTypeEnum),
@@ -302,7 +311,7 @@ const upvotePostValidator = z.object({
   postId: z.string(),
 });
 
-export const upvotePost = createServerFn()
+export const upvotePost = createServerFn({ method: "POST" })
   .middleware([authMiddleware])
   .validator(upvotePostValidator)
   .handler(async ({ data: { postId }, context }) => {
@@ -311,11 +320,11 @@ export const upvotePost = createServerFn()
     // Toggle upvote: delete if exists, otherwise insert
     await db.execute(sql`
       WITH deleted AS (
-        DELETE FROM post_upvotes 
-        WHERE post_id = ${postId} AND user_id = ${session.user.id}
+        DELETE FROM ${postUpvotes} 
+        WHERE "postId" = ${postId} AND "userId" = ${session.user.id}
         RETURNING 1
       )
-      INSERT INTO post_upvotes (id, post_id, user_id, created_at, updated_at)
+      INSERT INTO ${postUpvotes} ("id", "postId", "userId", "createdAt", "updatedAt")
       SELECT gen_random_uuid(), ${postId}, ${session.user.id}, NOW(), NOW()
       WHERE NOT EXISTS (SELECT 1 FROM deleted)
     `);
@@ -327,7 +336,7 @@ const commentPostValidator = z.object({
   content: z.string().min(1),
 });
 
-export const commentPost = createServerFn()
+export const commentPost = createServerFn({ method: "POST" })
   .middleware([authMiddleware])
   .validator(commentPostValidator)
   .handler(async ({ data: { postId, content }, context }) => {
