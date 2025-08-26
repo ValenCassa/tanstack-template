@@ -10,7 +10,6 @@ import {
 } from "../db/schema/auth/schema";
 
 export const serverAuth = betterAuth({
-  baseURL: "http://localhost:5173",
   secret: process.env.BETTER_AUTH_SECRET,
   session: {
     cookieCache: {
