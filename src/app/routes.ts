@@ -10,4 +10,5 @@ export const routes = rootRoute("__root.tsx", [
     index("post/post.page.tsx"),
     route("/$postId", "post/$postId/$postId.page.tsx"),
   ]),
+  route("/test", "test/test.page.tsx"),
 ]);
