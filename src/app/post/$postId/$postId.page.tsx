@@ -17,12 +17,13 @@ export const Route = createFileRoute("/post/$postId")({
       </div>
     );
   },
-  loader: ({ context, params }) => {
+  loader: async ({ context, params }) => {
+    // Fetch the data directly in the loader
     return context.queryClient.ensureQueryData(
       getPostQueryOptions(params.postId),
     );
   },
-  head: ({ loaderData }) => {
+  head: async ({ loaderData }) => {
     if (!loaderData) {
       return {
         meta: [
@@ -35,12 +36,13 @@ export const Route = createFileRoute("/post/$postId")({
         ],
       };
     }
+
     return {
       meta: [
         ...seo({
           title: `${loaderData.title} | Feedhub`,
           description: loaderData.description,
-          image: `${process.env.VERCEL_URL}/og-image.png`,
+          image: "/og-image.png",
         }),
       ],
     };
