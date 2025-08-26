@@ -33,7 +33,9 @@ export const posts = pgTable("posts", {
     .defaultNow()
     .$onUpdate(() => new Date()),
   authorId: text()
-    .references(() => users.id)
+    .references(() => users.id, {
+      onDelete: "cascade",
+    })
     .notNull(),
 });
 
@@ -42,10 +44,14 @@ export const postUpvotes = pgTable(
   {
     id: uuid().primaryKey().defaultRandom(),
     postId: uuid()
-      .references(() => posts.id)
+      .references(() => posts.id, {
+        onDelete: "cascade",
+      })
       .notNull(),
     userId: text()
-      .references(() => users.id)
+      .references(() => users.id, {
+        onDelete: "cascade",
+      })
       .notNull(),
     createdAt: timestamp().notNull().defaultNow(),
     updatedAt: timestamp()
@@ -59,10 +65,14 @@ export const postUpvotes = pgTable(
 export const postComments = pgTable("post_comments", {
   id: uuid().primaryKey().defaultRandom(),
   postId: uuid()
-    .references(() => posts.id)
+    .references(() => posts.id, {
+      onDelete: "cascade",
+    })
     .notNull(),
   userId: text()
-    .references(() => users.id)
+    .references(() => users.id, {
+      onDelete: "cascade",
+    })
     .notNull(),
   content: text().notNull(),
   createdAt: timestamp().notNull().defaultNow(),

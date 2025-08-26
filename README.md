@@ -69,7 +69,7 @@ GOOGLE_CLIENT_SECRET=your_google_client_secret
 npm run db:push
 ```
 
-2. (Optional) Seed the database:
+2. (Optional) Seed the database with sample data:
 ```bash
 npm run db:seed
 ```
@@ -89,6 +89,7 @@ The application will be available at `http://localhost:5173`.
 - `npm run build` - Build for production
 - `npm run db:push` - Push schema changes to database
 - `npm run db:studio` - Open Drizzle Studio for database management
+- `npm run db:seed` - Seed database with sample data
 
 ## Deployment
 

@@ -17,7 +17,7 @@ export const serverAuth = betterAuth({
       maxAge: 86400,
     },
   },
-  trustedOrigins: ["http://localhost:5173"],
+  trustedOrigins: [process.env.VERCEL_URL ?? process.env.BETTER_AUTH_URL!],
   database: drizzleAdapter(db, {
     provider: "pg",
     schema: {

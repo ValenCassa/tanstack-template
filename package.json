@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "vite dev",
     "build": "vite build",
-    "start": "vite start"
+    "db:push": "drizzle-kit push",
+    "db:studio": "drizzle-kit studio",
+    "db:seed": "dotenv -e .env -- bash -c 'psql \"$DATABASE_URL\" -f ./src/utils/db/seed.sql'"
   },
   "dependencies": {
     "@base-ui-components/react": "^1.0.0-beta.2",
@@ -44,6 +46,7 @@
     "@types/react-dom": "^19.0.3",
     "@vitejs/plugin-react-swc": "^4.0.1",
     "autoprefixer": "^10.4.20",
+    "dotenv-cli": "^7.4.4",
     "drizzle-kit": "^0.31.4",
     "eslint": "^9.33.0",
     "eslint-config-prettier": "^10.1.8",
