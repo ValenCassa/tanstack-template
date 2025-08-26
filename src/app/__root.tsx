@@ -34,7 +34,7 @@ export const Route = createRootRouteWithContext<{
         title: "Feedhub | Tanstack Demo",
         description:
           "Feedhub is a demo app built with Tanstack Start. It's a simple app that allows you to create and manage your feedback.",
-        image: "/og-image.png",
+        image: `${process.env.VERCEL_URL}/og-image.png`,
       }),
     ],
     links: [
@@ -44,7 +44,6 @@ export const Route = createRootRouteWithContext<{
         type: "image/png",
         href: "/favicon.png",
       },
-      { rel: "manifest", href: "/site.webmanifest", color: "#fffff" },
     ],
   }),
   errorComponent: (props) => {
