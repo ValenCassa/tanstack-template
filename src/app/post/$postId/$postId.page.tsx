@@ -34,7 +34,7 @@ export const Route = createFileRoute("/post/$postId")({
             title: "Feedhub | Tanstack Demo",
             description:
               "Feedhub is a demo app built with Tanstack Start. It's a simple app that allows you to create and manage your feedback.",
-            image: `${process.env.VERCEL_URL}/og-image.png`,
+            image: "https://tanstack-demo.valencassa.dev/og-image.png",
           }),
         ],
       };
@@ -45,7 +45,7 @@ export const Route = createFileRoute("/post/$postId")({
         ...seo({
           title: `${loaderData.title} | Feedhub`,
           description: loaderData.description,
-          image: "/og-image.png",
+          image: "https://tanstack-demo.valencassa.dev/og-image.png",
         }),
       ],
     };

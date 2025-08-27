@@ -11,6 +11,7 @@
 import { createServerRootRoute } from '@tanstack/react-start/server'
 
 import { Route as rootRouteImport } from './app/__root'
+import { Route as testTestDotpageRouteImport } from './app/test/test.page'
 import { Route as indexIndexDotpageRouteImport } from './app/index/index.page'
 import { Route as postPostIdPostIdDotpageRouteImport } from './app/post/$postId/$postId.page'
 import { Route as postPostDotpageRouteImport } from './app/post/post.page'
@@ -18,6 +19,11 @@ import { ServerRoute as apiAuthSplatServerRouteImport } from './app/api/auth/$'
 
 const rootServerRouteImport = createServerRootRoute()
 
+const testTestDotpageRoute = testTestDotpageRouteImport.update({
+  id: '/test',
+  path: '/test',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const indexIndexDotpageRoute = indexIndexDotpageRouteImport.update({
   id: '/',
   path: '/',
@@ -41,30 +47,34 @@ const apiAuthSplatServerRoute = apiAuthSplatServerRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof indexIndexDotpageRoute
+  '/test': typeof testTestDotpageRoute
   '/post': typeof postPostDotpageRoute
   '/post/$postId': typeof postPostIdPostIdDotpageRoute
 }
 export interface FileRoutesByTo {
   '/': typeof indexIndexDotpageRoute
+  '/test': typeof testTestDotpageRoute
   '/post': typeof postPostDotpageRoute
   '/post/$postId': typeof postPostIdPostIdDotpageRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof indexIndexDotpageRoute
+  '/test': typeof testTestDotpageRoute
   '/post/': typeof postPostDotpageRoute
   '/post/$postId': typeof postPostIdPostIdDotpageRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/post' | '/post/$postId'
+  fullPaths: '/' | '/test' | '/post' | '/post/$postId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/post' | '/post/$postId'
-  id: '__root__' | '/' | '/post/' | '/post/$postId'
+  to: '/' | '/test' | '/post' | '/post/$postId'
+  id: '__root__' | '/' | '/test' | '/post/' | '/post/$postId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   indexIndexDotpageRoute: typeof indexIndexDotpageRoute
+  testTestDotpageRoute: typeof testTestDotpageRoute
   postPostDotpageRoute: typeof postPostDotpageRoute
   postPostIdPostIdDotpageRoute: typeof postPostIdPostIdDotpageRoute
 }
@@ -92,6 +102,13 @@ export interface RootServerRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/test': {
+      id: '/test'
+      path: '/test'
+      fullPath: '/test'
+      preLoaderRoute: typeof testTestDotpageRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -129,6 +146,7 @@ declare module '@tanstack/react-start/server' {
 
 const rootRouteChildren: RootRouteChildren = {
   indexIndexDotpageRoute: indexIndexDotpageRoute,
+  testTestDotpageRoute: testTestDotpageRoute,
   postPostDotpageRoute: postPostDotpageRoute,
   postPostIdPostIdDotpageRoute: postPostIdPostIdDotpageRoute,
 }
