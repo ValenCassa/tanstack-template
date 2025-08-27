@@ -38,8 +38,8 @@ This project integrates with tools developers know and love:
 
 1. Clone the repository:
 ```bash
-git clone <repository-url>
-cd tanstack-demo
+git clone https://github.com/ValenCassa/tanstack-template
+cd tanstack-template
 ```
 
 2. Install dependencies:
