@@ -18,7 +18,12 @@ import { CreatePostModal } from "../create-post-modal";
 export function FeedbackFilters() {
   const session = clientAuth.useSession();
   const navigate = useNavigate();
-  const { sort, search } = Route.useSearch();
+  const { sort, search } = Route.useSearch({
+    select: (state) => ({
+      sort: state.sort,
+      search: state.search,
+    }),
+  });
 
   const debouncedSearch = useMemo(() => {
     let timeoutId: NodeJS.Timeout;

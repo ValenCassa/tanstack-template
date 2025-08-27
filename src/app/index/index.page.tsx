@@ -10,7 +10,6 @@ import { FeedbackMeta } from "./_shared/feedback-meta";
 
 export const Route = createFileRoute("/")({
   validateSearch: postsValidateSearch,
-  wrapInSuspense: false,
   loaderDeps: ({ search }) => {
     return {
       search,
