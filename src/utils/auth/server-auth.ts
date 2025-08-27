@@ -14,6 +14,7 @@ export const serverAuth = betterAuth({
   session: {
     cookieCache: {
       enabled: true,
+      // 1 day in seconds
       maxAge: 86400,
     },
   },

@@ -11,13 +11,20 @@
 import { createServerRootRoute } from '@tanstack/react-start/server'
 
 import { Route as rootRouteImport } from './app/__root'
+import { Route as protectedprotectedDotlayoutRouteImport } from './app/(protected)/(protected).layout'
 import { Route as indexIndexDotpageRouteImport } from './app/index/index.page'
 import { Route as postPostIdPostIdDotpageRouteImport } from './app/post/$postId/$postId.page'
+import { Route as protectedProtectedDotpageRouteImport } from './app/(protected)/protected.page'
 import { Route as postPostDotpageRouteImport } from './app/post/post.page'
 import { ServerRoute as apiAuthSplatServerRouteImport } from './app/api/auth/$'
 
 const rootServerRouteImport = createServerRootRoute()
 
+const protectedprotectedDotlayoutRoute =
+  protectedprotectedDotlayoutRouteImport.update({
+    id: '/_(protected).layout',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const indexIndexDotpageRoute = indexIndexDotpageRouteImport.update({
   id: '/',
   path: '/',
@@ -28,6 +35,12 @@ const postPostIdPostIdDotpageRoute = postPostIdPostIdDotpageRouteImport.update({
   path: '/post/$postId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const protectedProtectedDotpageRoute =
+  protectedProtectedDotpageRouteImport.update({
+    id: '/protected',
+    path: '/protected',
+    getParentRoute: () => protectedprotectedDotlayoutRoute,
+  } as any)
 const postPostDotpageRoute = postPostDotpageRouteImport.update({
   id: '/post/',
   path: '/post/',
@@ -42,29 +55,40 @@ const apiAuthSplatServerRoute = apiAuthSplatServerRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof indexIndexDotpageRoute
   '/post': typeof postPostDotpageRoute
+  '/protected': typeof protectedProtectedDotpageRoute
   '/post/$postId': typeof postPostIdPostIdDotpageRoute
 }
 export interface FileRoutesByTo {
   '/': typeof indexIndexDotpageRoute
   '/post': typeof postPostDotpageRoute
+  '/protected': typeof protectedProtectedDotpageRoute
   '/post/$postId': typeof postPostIdPostIdDotpageRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof indexIndexDotpageRoute
+  '/_(protected).layout': typeof protectedprotectedDotlayoutRouteWithChildren
   '/post/': typeof postPostDotpageRoute
+  '/_(protected).layout/protected': typeof protectedProtectedDotpageRoute
   '/post/$postId': typeof postPostIdPostIdDotpageRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/post' | '/post/$postId'
+  fullPaths: '/' | '/post' | '/protected' | '/post/$postId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/post' | '/post/$postId'
-  id: '__root__' | '/' | '/post/' | '/post/$postId'
+  to: '/' | '/post' | '/protected' | '/post/$postId'
+  id:
+    | '__root__'
+    | '/'
+    | '/_(protected).layout'
+    | '/post/'
+    | '/_(protected).layout/protected'
+    | '/post/$postId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   indexIndexDotpageRoute: typeof indexIndexDotpageRoute
+  protectedprotectedDotlayoutRoute: typeof protectedprotectedDotlayoutRouteWithChildren
   postPostDotpageRoute: typeof postPostDotpageRoute
   postPostIdPostIdDotpageRoute: typeof postPostIdPostIdDotpageRoute
 }
@@ -92,6 +116,13 @@ export interface RootServerRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/_(protected).layout': {
+      id: '/_(protected).layout'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof protectedprotectedDotlayoutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -105,6 +136,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/post/$postId'
       preLoaderRoute: typeof postPostIdPostIdDotpageRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/_(protected).layout/protected': {
+      id: '/_(protected).layout/protected'
+      path: '/protected'
+      fullPath: '/protected'
+      preLoaderRoute: typeof protectedProtectedDotpageRouteImport
+      parentRoute: typeof protectedprotectedDotlayoutRoute
     }
     '/post/': {
       id: '/post/'
@@ -127,8 +165,24 @@ declare module '@tanstack/react-start/server' {
   }
 }
 
+interface protectedprotectedDotlayoutRouteChildren {
+  protectedProtectedDotpageRoute: typeof protectedProtectedDotpageRoute
+}
+
+const protectedprotectedDotlayoutRouteChildren: protectedprotectedDotlayoutRouteChildren =
+  {
+    protectedProtectedDotpageRoute: protectedProtectedDotpageRoute,
+  }
+
+const protectedprotectedDotlayoutRouteWithChildren =
+  protectedprotectedDotlayoutRoute._addFileChildren(
+    protectedprotectedDotlayoutRouteChildren,
+  )
+
 const rootRouteChildren: RootRouteChildren = {
   indexIndexDotpageRoute: indexIndexDotpageRoute,
+  protectedprotectedDotlayoutRoute:
+    protectedprotectedDotlayoutRouteWithChildren,
   postPostDotpageRoute: postPostDotpageRoute,
   postPostIdPostIdDotpageRoute: postPostIdPostIdDotpageRoute,
 }

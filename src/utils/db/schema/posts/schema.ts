@@ -81,18 +81,3 @@ export const postComments = pgTable("post_comments", {
     .defaultNow()
     .$onUpdate(() => new Date()),
 });
-
-// Validation schemas
-export const postsValidateSearch = z.object({
-  sort: z
-    .enum(["trending", "top", "new"])
-    .optional()
-    .default("trending")
-    .catch("trending"),
-  search: z.string().optional().default(""),
-  board: z
-    .enum([...boardTypeEnum, "all"])
-    .optional()
-    .default("all")
-    .catch("all"),
-});

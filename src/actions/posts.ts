@@ -10,7 +10,6 @@ import {
   boardTypeEnum,
   postComments,
   posts,
-  postsValidateSearch,
   postUpvotes,
 } from "~/utils/db/schema/posts/schema";
 import { jsonBuildObject } from "~/utils/db/utils";
@@ -61,8 +60,22 @@ const topScore = sql<number>`
   + COALESCE(${upvotesWeight} * COALESCE(${upvoteCounts.upvotesAll}, 0), 0)
 `;
 
+export const getPostsValidator = z.object({
+  sort: z
+    .enum(["trending", "top", "new"])
+    .optional()
+    .default("trending")
+    .catch("trending"),
+  search: z.string().optional().default(""),
+  board: z
+    .enum([...boardTypeEnum, "all"])
+    .optional()
+    .default("all")
+    .catch("all"),
+});
+
 export const getPosts = createServerFn()
-  .validator(postsValidateSearch)
+  .validator(getPostsValidator)
   .handler(async ({ data: input }) => {
     const request = getWebRequest();
     if (!request) {
@@ -147,9 +160,7 @@ export const getPosts = createServerFn()
     return data;
   });
 
-export function getPostsQueryOptions(
-  args: z.infer<typeof postsValidateSearch>,
-) {
+export function getPostsQueryOptions(args: z.infer<typeof getPostsValidator>) {
   return {
     queryKey: ["posts", args],
     queryFn: () => getPosts({ data: args }),

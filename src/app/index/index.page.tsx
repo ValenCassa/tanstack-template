@@ -1,15 +1,14 @@
 import { createFileRoute } from "@tanstack/react-router";
 
 import { getLeaderboardQueryOptions } from "~/actions/leaderboard";
-import { getPostsQueryOptions } from "~/actions/posts";
+import { getPostsQueryOptions, getPostsValidator } from "~/actions/posts";
 import { ScrollArea } from "~/components/ui";
-import { postsValidateSearch } from "~/utils/db/schema/posts/schema";
 
 import { FeedbackList } from "./_shared/feedback-list";
 import { FeedbackMeta } from "./_shared/feedback-meta";
 
 export const Route = createFileRoute("/")({
-  validateSearch: postsValidateSearch,
+  validateSearch: getPostsValidator,
   loaderDeps: ({ search }) => {
     return {
       search,

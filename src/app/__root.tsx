@@ -8,6 +8,7 @@ import {
   Scripts,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
+import type { Session } from "better-auth";
 import * as React from "react";
 
 import { DefaultCatchBoundary } from "~/components/DefaultCatchBoundary";
@@ -20,6 +21,7 @@ import { LogInModal } from "./_shared/log-in-modal";
 
 export const Route = createRootRouteWithContext<{
   queryClient: QueryClient;
+  session: Session | undefined;
 }>()({
   head: () => ({
     meta: [
