@@ -130,7 +130,9 @@ export function FeedbackPosts() {
               >
                 <div className="space-y-1">
                   <p className="text-base text-sm font-medium">{post.title}</p>
-                  <p className="text-subtle text-sm">{post.description}</p>
+                  <p className="text-subtle line-clamp-3 text-sm">
+                    {post.description}
+                  </p>
                 </div>
 
                 <div className="flex w-full items-center justify-between">
