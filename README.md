@@ -99,26 +99,6 @@ The application will be available at `http://localhost:5173`.
 2. Configure environment variables in Vercel dashboard
 3. Deploy with automatic builds on push
 
-
-## Project Structure
-
-```
-src/
-├── actions/           # Server actions and API functions
-├── app/              # File-based routing structure
-│   ├── __root.tsx    # Root layout component
-│   ├── index/        # Home page route
-│   └── post/         # Post detail routes
-├── components/       # Reusable UI components
-│   ├── ui/          # Base UI component implementations
-│   └── icons/       # SVG icon components
-├── utils/           # Utility functions and configurations
-│   ├── auth/        # Authentication utilities
-│   ├── db/          # Database schema and utilities
-│   └── cn/          # Class name utilities
-└── globals.css      # Global styles and theme tokens
-```
-
 ## Contributing
 
 1. Fork the repository
