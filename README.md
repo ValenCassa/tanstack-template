@@ -116,5 +116,5 @@ This project is open source and available under the [MIT License](LICENSE).
 - [TanStack Start Documentation](https://tanstack.com/start/latest)
 - [TanStack Query Guide](https://tanstack.com/query/latest)
 - [Better Auth Documentation](https://www.better-auth.com/docs)
-- [Base UI Components](https://base-ui.netlify.app/react)
+- [Base UI Components](https://base-ui.com/react/overview/quick-start)
 - [Tailwind CSS Documentation](https://tailwindcss.com/docs)
