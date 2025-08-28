@@ -17,6 +17,7 @@ export const Route = createFileRoute("/post/$postId")({
       </div>
     );
   },
+  pendingMs: 0,
   loader: async ({ context, params }) => {
     context.queryClient.prefetchQuery(getPostQueryOptions(params.postId));
 
